@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sidebar Project</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="sidebar" id="sidebar">
-    <button class="close-btn" id="closeBtn">&times;</button>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Profile</a></li>
-      <li><a href="#">Messages</a></li>
-      <li><a href="#">Settings</a></li>
-    </ul>
-  </div>
-  <div class="main-content">
-    <button class="open-btn" id="openBtn">&#9776;</button>
-    <h1>Welcome to the Sidebar Project</h1>
-    <p>This is a simple HTML/CSS/JS sidebar layout. Click the menu icon to open the sidebar, and the &times; icon to close it.</p>
-  </div>
-  <script src="scripts.js"></script>
+    <div class="overlay" id="overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <h2>Menu</h2>
+        <ul id="menuItems">
+            <li data-name="Dashboard">Dashboard</li>
+            <li data-name="Profile">Profile</li>
+            <li data-name="Settings">Settings</li>
+            <li data-name="Logout">Logout</li>
+        </ul>
+    </div>
+    <div class="content">
+        <button class="hamburger" id="toggleBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <h1>Hello World!</h1>
+        <p>Activity 2 - Sidebar</p>
+        <!-- status indicator to show sidebar -->
+        <div class="status-indicator" id="statusIndicator">Sidebar is CLOSED</div>
+    </div>
+    <script src="scripts.js"></script>
 </body>
 </html>

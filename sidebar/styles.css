@@ -1,70 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif;
+}
 body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f4f4f4;
+    display: flex;
 }
 
 .sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  background-color: #333;
-  overflow-x: hidden;
-  transition: 0.3s;
-  padding-top: 60px;
+    width: 250px;
+    height: 100vh;
+    background-color: black;
+    color: white;
+    position: fixed;
+    left: -250px;
+    transition: left 0.3s ease;
+    padding: 20px;
+    z-index: 1000;
+}
+.sidebar.active {
+    left: 0;
+}
+.sidebar h2 {
+    margin-bottom: 20px;
 }
 
 .sidebar ul {
-  list-style: none;
-  padding: 0;
+    list-style: none;
 }
 
 .sidebar ul li {
-  padding: 16px;
-  border-bottom: 1px solid #444;
+    margin: 15px 0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.sidebar ul li:hover {
+    color: #38bdf8;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4 );
+    display: none;
+    z-index: 900;
+}
+.overlay.active {
+    display: block;
+}
+.content {
+    margin-left: 20px;
+    padding: 20px;
+    text-align: center; /* center align all text content */
+    width: 100%;
+    display: flex; /* flexbox for centering */
+    flex-direction: column;
+    align-items: center;
+}
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #38bdf8;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #1d4ed8;
 }
 
-.sidebar ul li a {
-  color: #fff;
-  text-decoration: none;
-  display: block;
-  transition: background 0.2s, color 0.2s;
+/* hamburger button styles */
+.hamburger {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #38bdf8;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    z-index: 1100;
+    transition: all 0.3s ease; /* smooth transition for all properties */
 }
 
-.sidebar ul li a:hover {
-  color: #ffd700; /* Changes text color to gold on hover */
+.hamburger:hover {
+    background-color: #1d4ed8;
 }
 
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 25px;
-  font-size: 36px;
-  background: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    border-radius: 3px;
+    transition: all 0.3s ease;
 }
 
-.open-btn {
-  font-size: 20px;
-  margin: 16px;
-  cursor: pointer;
+/* hamburger animation when sidebar is active */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
 }
 
-.main-content {
-  margin-left: 0;
-  transition: margin-left 0.3s;
-  padding: 16px;
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
 }
 
-.sidebar.active {
-  width: 250px;
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
 }
 
-.main-content.shifted {
-  margin-left: 250px;
+/* move hamburger when sidebar is open and change color to red */
+.hamburger.active {
+    left: 270px;
+    background-color: #ef4444; /* change button color to red when opened */
+}
+
+/* hover effect for red button when active */
+.hamburger.active:hover {
+    background-color: #dc2626; /* darker red on hover when opened */
+}
+
+/* status indicator styles */
+.status-indicator {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background-color: #f3f4f6;
+    border-left: 4px solid #38bdf8;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
+    color: #1f2937;
+    transition: all 0.3s ease;
+    max-width: 300px;
+    width: 100%;
+}
+
+.status-indicator.open {
+    background-color: #dcfce7;
+    border-left-color: #22c55e;
+    color: #166534;
+}
+
+.status-indicator.closed {
+    background-color: #fee2e2;
+    border-left-color: #ef4444;
+    color: #991b1b;
 }

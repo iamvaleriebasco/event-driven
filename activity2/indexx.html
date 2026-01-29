@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes & Settings Mini App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #dc34a1 0%, #96628e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        #feedback {
+            padding: 15px 20px;
+            text-align: center;
+            font-weight: 500;
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .char-counter {
+            margin-top: 8px;
+            text-align: right;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .notes-section {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        li {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        li:hover {
+            background: #e9ecef;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
+        #panel {
+            display: none;
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        #panel.active {
+            display: block;
+        }
+
+        .mode-display {
+            text-align: center;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .mode-display p {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .mode-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-left: 8px;
+            font-size: 14px;
+        }
+
+        .edit-mode {
+            background: #28a745;
+            color: white;
+        }
+
+        .view-mode {
+            background: #007bff;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!--part A - rename title-->
+    <div class="container">
+        <header>
+            <h1 id="header">Mini App</h1>
+            <button id="rename">Rename</button>
+        </header>
+        
+        <!--part B - visual feedback-->
+        <p id="feedback">Waiting...</p>
+
+        <!--part C - character counter-->
+        <div class="main-content">
+            <div class="section-title">Character Counter</div>
+            <textarea id="msg" placeholder="Type something here..."></textarea>
+            <div class="char-counter">
+                <span id="chars">0</span> characters
+            </div>
+
+            <!--part D & E- add notes & delegated delete-->
+            <div class="notes-section">
+                <div class="section-title">Add Notes</div>
+                <input id="note" type="text" placeholder="Enter a note...">
+                <button id="save">Save</button>
+                <ul id="notes"></ul>
+            </div>
+
+            <!--part F - toggle panel-->
+            <div style="margin-top: 20px; text-align: center;">
+                <button id="panelBtn">Toggle</button>
+                <div id="panel">
+                    <div class="section-title">Settings</div>
+            </div>
+        </div>
+
+        <!--part G - keyboard mode-->
+            <div class="mode-display">
+                <p id="mode">Mode: <span class="mode-badge edit-mode">EDIT</span></p>
+            </div>
+            <p>Press 'E' for EDIT mode or 'V' for VIEW mode</p>
+        </div>
+    </div>
+
+    <script>
+        // Part A - Rename Title
+        document.getElementById('rename').addEventListener('click', function() {
+            const newTitle = prompt('Enter new title:');
+            if (newTitle) {
+                document.getElementById('header').textContent = newTitle;
+            }
+        });
+
+        // Part B - Visual Feedback
+        document.getElementById('rename').addEventListener('click', function() {
+            const feedback = document.getElementById('feedback');
+            feedback.textContent = 'Title updated!';
+            feedback.style.background = '#28a745';
+            feedback.style.color = 'white';
+            
+            setTimeout(function() {
+                feedback.textContent = 'Waiting...';
+                feedback.style.background = '#f0f0f0';
+                feedback.style.color = '#666';
+            }, 2000);
+        });
+
+        // Part C - Character Counter
+        document.getElementById('msg').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('chars').textContent = count;
+        });
+
+        // Part D - Add Notes
+        document.getElementById('save').addEventListener('click', function() {
+            const noteInput = document.getElementById('note');
+            const noteText = noteInput.value.trim();
+            
+            if (noteText) {
+                const li = document.createElement('li');
+                li.innerHTML = '<span>' + noteText + '</span><button class="delete-btn">Delete</button>';
+                document.getElementById('notes').appendChild(li);
+                noteInput.value = '';
+            }
+        });
+
+        // Part E - Delegated Delete
+        document.getElementById('notes').addEventListener('click', function(e) {
+            if (e.target.classList.contains('delete-btn')) {
+                e.target.parentElement.remove();
+            }
+        });
+
+        // Part F - Toggle Panel
+        document.getElementById('panelBtn').addEventListener('click', function() {
+            document.getElementById('panel').classList.toggle('active');
+        });
+
+       // Part G - Keyboard Mode
+        document.addEventListener('keydown', function(e) {
+            // Ignore if typing in an input or textarea
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                return;
+            }
+            
+            const modeDisplay = document.getElementById('mode');
+            
+            if (e.key === 'e' || e.key === 'E') {
+                modeDisplay.innerHTML = 'Mode: <span class="mode-badge edit-mode">EDIT</span>';
+            } else if (e.key === 'v' || e.key === 'V') {
+                modeDisplay.innerHTML = 'Mode: <span class="mode-badge view-mode">VIEW</span>';
+            }
+        });
+    </script>
+</body>
+</html>
